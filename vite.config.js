@@ -6,4 +6,5 @@ export default defineConfig({
   server: {
     historyApiFallback: true,  // 👈 Important for React Router
   },
+  base: process.env.VITE_BASE_PATH || "/essantique"
 });
