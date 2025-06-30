@@ -79,11 +79,11 @@ const HeroSection = () => {
         </p>
 
         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight text-white">
-          ESSANTIQUE
+          ESSENTIQUE
         </h2>
 
         <p className="text-gray-400 mb-6 text-base sm:text-lg leading-relaxed">
-          Experience the captivating allure of Essantique perfumes—crafted to evoke elegance, confidence, and unforgettable moments with every spray.
+          Experience the captivating allure of Essentique perfumes—crafted to evoke elegance, confidence, and unforgettable moments with every spray.
         </p>
 
         <button

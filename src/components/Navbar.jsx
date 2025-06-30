@@ -25,7 +25,7 @@ const Navbar = () => {
       <div className="container px-4 mx-auto relative lg:text-sm">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link to="/" className="text-xl font-bold tracking-tight">Essantique</Link>
+          <Link to="/" className="text-xl font-bold tracking-tight">Essentique</Link>
 
           {/* Desktop Nav Links */}
           <ul className="hidden lg:flex ml-14 space-x-12">
