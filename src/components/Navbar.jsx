@@ -110,7 +110,7 @@ const Navbar = () => {
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
                 transition={{ duration: 0.3 }}
-                className="fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 p-4"
+                className="fixed top-0 right-0 h-full w-80 bg-gray-300 shadow-lg z-50 p-4"
               >
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-lg font-semibold">Search Products</h2>
@@ -125,11 +125,11 @@ const Navbar = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search products..."
-                    className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="border border-gray-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
                   />
                   <button
                     type="submit"
-                    className="bg-orange-600 text-white py-2 rounded hover:bg-orange-700 transition"
+                    className="bg-orange-600 text-black py-2 rounded hover:bg-orange-700 transition"
                   >
                     Search
                   </button>
