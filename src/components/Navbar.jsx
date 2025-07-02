@@ -89,30 +89,7 @@ const Navbar = () => {
           </div>
         )}
 
-        {/* Search Drawer (Slide In) */}
-        {searchOpen && (
-          <div className="fixed top-0 right-0 h-full w-80 bg-white shadow-lg p-4 z-50 transition-transform transform translate-x-0">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold">Search</h2>
-              <button onClick={() => setSearchOpen(false)}><X /></button>
-            </div>
-            <form onSubmit={handleSearchSubmit} className="flex flex-col space-y-3">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products..."
-                className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-              />
-              <button
-                type="submit"
-                className="bg-orange-600 text-white py-2 rounded hover:bg-orange-700 transition"
-              >
-                Search
-              </button>
-            </form>
-          </div>
-        )}
+        
       </div>
     </nav>
   );
