@@ -42,14 +42,13 @@ const Navbar = () => {
 
           {/* Desktop Nav Links */}
           <ul className="hidden lg:flex ml-14 space-x-12">
-            <nav>
-  {navItems.map((item) => (
-    <a key={item.href} href={item.href} className="px-4 hover:text-yellow-500">
-      {item.label}
-    </a>
-  ))}
-</nav>
-
+            {navItems.map((item, index) => (
+              <li key={index}>
+                <Link to={item.href} className="hover:text-orange-700 transition">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
 
           {/* Right Side Icons */}
