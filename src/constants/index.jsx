@@ -1,6 +1,6 @@
 export const navItems = [
   { label: "Home", href: "#home" },
   { label: "Gallery", href: "#gallery" },
-  { label: "Perfume Collection", href: "#perfume-collection" },
+  { label: "PerfumeCollection", href: "#collections" },
   { label: "Footer", href: "#footer" },
 ];
