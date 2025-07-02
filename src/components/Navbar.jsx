@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { navItems } from "../constants/index";
 import { auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -14,6 +15,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const toggleNavbar = () => setMobileDrawerOpen(!mobileDrawerOpen);
+
   const handleLogout = async () => {
     await auth.signOut();
     navigate("/");
@@ -89,7 +91,53 @@ const Navbar = () => {
           </div>
         )}
 
-        
+        {/* Sliding Right Side Search Panel */}
+        <AnimatePresence>
+          {searchOpen && (
+            <>
+              {/* Black Overlay */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.4 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black z-40"
+                onClick={() => setSearchOpen(false)}
+              />
+
+              {/* Search Panel */}
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ duration: 0.3 }}
+                className="fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-50 p-4"
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-lg font-semibold">Search Products</h2>
+                  <button onClick={() => setSearchOpen(false)}>
+                    <X />
+                  </button>
+                </div>
+
+                <form onSubmit={handleSearchSubmit} className="flex flex-col space-y-3">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search products..."
+                    className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  />
+                  <button
+                    type="submit"
+                    className="bg-orange-600 text-white py-2 rounded hover:bg-orange-700 transition"
+                  >
+                    Search
+                  </button>
+                </form>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );
