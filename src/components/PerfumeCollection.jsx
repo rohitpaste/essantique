@@ -21,7 +21,7 @@ const categories = [
 const PerfumeCollection = () => {
   return (
     <section
-      id="collections"
+      id="perfume-collection"
       className="bg-black text-white py-20 px-6 md:px-12 lg:px-24"
     >
       <div className="text-center mb-16">

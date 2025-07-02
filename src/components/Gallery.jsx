@@ -168,7 +168,7 @@ const Gallery = () => {
   };
 
   return (
-    <section className="bg-white text-black-900 py-20 px-6 md:px-16 relative">
+    <section id="gallery" className="bg-white text-black-900 py-20 px-6 md:px-16 relative">
       <h2 className="text-4xl md:text-5xl font-semibold text-center mb-12 font-serif">
         You may also like
       </h2>

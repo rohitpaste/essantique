@@ -15,7 +15,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="flex flex-col md:flex-row items-center justify-between px-6 md:px-20 py-20 bg-black relative overflow-hidden">
+    <section id="home" className="flex flex-col md:flex-row items-center justify-between px-6 md:px-20 py-20 bg-black relative overflow-hidden">
 
       {/* Image Section - On top for mobile */}
       <div className="w-full md:w-1/2 flex items-center justify-center relative mb-10 md:mb-0">

@@ -1,13 +1,6 @@
-
-
-// ✅ Navigation links
 export const navItems = [
-  { label: "Home", href: "#" },
-  { label: "PerfumeCollection", href: "#PerfumeCollection" },
-  { label: "Collections", href: "#collections" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "#home" },
+  { label: "Gallery", href: "#gallery" },
+  { label: "Perfume Collection", href: "#perfume-collection" },
+  { label: "Footer", href: "#footer" },
 ];
-
-
-
-
