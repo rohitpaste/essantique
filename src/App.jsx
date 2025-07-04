@@ -16,6 +16,8 @@ import Profile from "./components/Profile";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import AutoScrolling from "./components/AutoScrolling";
+import CustomizePerfume from "./components/CustomizePerfume"; // Import the new page
+
 
 // HomePage as a combined section page
 const HomePage = () => (
@@ -48,6 +50,8 @@ const Layout = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/scroll" element={<AutoScrolling />} />
+        <Route path="/customize" element={<CustomizePerfume />} /> {/* New Route */}
+
       </Routes>
 
       {showFooter && <Footer />}
