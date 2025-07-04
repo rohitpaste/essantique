@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db, auth } from "../firebase"; // Adjust the path as needed
+import { db, auth } from "../firebase"; // Your Firebase configuration
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -35,13 +35,17 @@ const BuyNowPage = () => {
     }
 
     const orderData = {
+      userEmail: user.email,
       ...formData,
       createdAt: serverTimestamp(),
-      totalAmount: 599, // Replace with actual total if needed
-      productTitle: "GLITCH IN THE MATRIX",
-      productQuantity: 4,
-      productSize: "20ml",
-      productPrice: 599,
+      product: {
+        title: "GLITCH IN THE MATRIX",
+        quantity: 4,
+        size: "20ml",
+        price: 599,
+      },
+      totalAmount: 599,
+      orderStatus: "Pending",
     };
 
     try {
@@ -54,16 +58,11 @@ const BuyNowPage = () => {
     }
   };
 
-  const handleCancel = () => {
-    navigate("/");
-  };
-
   return (
     <div className="min-h-screen bg-gray-50 p-4 lg:p-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left: Form */}
         <form onSubmit={handleSubmit} className="lg:col-span-2 space-y-6">
-          {/* Contact */}
           <div className="bg-white p-6 rounded shadow">
             <h2 className="text-lg font-semibold mb-4">Contact</h2>
             <input
@@ -77,7 +76,6 @@ const BuyNowPage = () => {
             />
           </div>
 
-          {/* Delivery */}
           <div className="bg-white p-6 rounded shadow space-y-4">
             <h2 className="text-lg font-semibold">Delivery</h2>
 
@@ -99,6 +97,7 @@ const BuyNowPage = () => {
                 value={formData.firstName}
                 onChange={handleChange}
                 className="w-1/2 border rounded p-2"
+                required
               />
               <input
                 type="text"
@@ -107,6 +106,7 @@ const BuyNowPage = () => {
                 value={formData.lastName}
                 onChange={handleChange}
                 className="w-1/2 border rounded p-2"
+                required
               />
             </div>
 
@@ -137,6 +137,7 @@ const BuyNowPage = () => {
                 value={formData.city}
                 onChange={handleChange}
                 className="w-1/3 border rounded p-2"
+                required
               />
               <input
                 type="text"
@@ -145,6 +146,7 @@ const BuyNowPage = () => {
                 value={formData.state}
                 onChange={handleChange}
                 className="w-1/3 border rounded p-2"
+                required
               />
               <input
                 type="text"
@@ -153,6 +155,7 @@ const BuyNowPage = () => {
                 value={formData.pinCode}
                 onChange={handleChange}
                 className="w-1/3 border rounded p-2"
+                required
               />
             </div>
 
@@ -167,7 +170,6 @@ const BuyNowPage = () => {
             />
           </div>
 
-          {/* Payment */}
           <div className="bg-white p-6 rounded shadow">
             <h2 className="text-lg font-semibold mb-2">Payment Method</h2>
 
@@ -192,7 +194,7 @@ const BuyNowPage = () => {
               </button>
               <button
                 type="button"
-                onClick={handleCancel}
+                onClick={() => navigate("/")}
                 className="mt-2 px-6 py-2 bg-gray-700 text-white rounded hover:bg-gray-800 transition duration-300"
               >
                 Cancel
@@ -215,17 +217,6 @@ const BuyNowPage = () => {
               <p className="text-sm text-gray-500">20ml x4</p>
               <p>₹599.00</p>
             </div>
-          </div>
-
-          <div className="mt-4">
-            <input
-              type="text"
-              placeholder="Discount code"
-              className="w-full border rounded p-2"
-            />
-            <button className="mt-2 w-full bg-gray-800 text-white py-1 rounded">
-              Apply
-            </button>
           </div>
 
           <div className="mt-4 space-y-2 text-sm">
