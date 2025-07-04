@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import perfumeImage from "../assets/9.png"; // Replace with your image path
 
 const CustomizePerfume = () => {
   const [showCustomization, setShowCustomization] = useState(false);
@@ -25,14 +24,7 @@ const CustomizePerfume = () => {
           </button>
         </div>
 
-        {/* Right Side - Image */}
-        <div className="w-full md:w-1/2 flex justify-center">
-          <img
-            src={perfumeImage}
-            alt="Customize Perfume"
-            className="w-80 h-96 object-cover rounded-lg shadow-2xl"
-          />
-        </div>
+       
       </div>
 
       {/* Customization Modal Box */}
