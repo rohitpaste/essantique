@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { db, auth } from "../firebase"; // Adjust the path as needed
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const BuyNowPage = () => {
   const navigate = useNavigate();
+  const [user] = useAuthState(auth);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -22,15 +26,36 @@ const BuyNowPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Order Placed", formData);
-    alert("Order placed successfully!");
-    navigate("/profile"); // Redirect after order
+
+    if (!user) {
+      alert("Please log in to place an order.");
+      return;
+    }
+
+    const orderData = {
+      ...formData,
+      createdAt: serverTimestamp(),
+      totalAmount: 599, // Replace with actual total if needed
+      productTitle: "GLITCH IN THE MATRIX",
+      productQuantity: 4,
+      productSize: "20ml",
+      productPrice: 599,
+    };
+
+    try {
+      await addDoc(collection(db, "users", user.uid, "orders"), orderData);
+      alert("Order placed successfully!");
+      navigate("/profile");
+    } catch (error) {
+      console.error("Error placing order:", error);
+      alert("Failed to place order. Please try again.");
+    }
   };
 
   const handleCancel = () => {
-    navigate("/"); // Go back home
+    navigate("/");
   };
 
   return (
@@ -172,7 +197,6 @@ const BuyNowPage = () => {
               >
                 Cancel
               </button>
-
             </div>
           </div>
         </form>

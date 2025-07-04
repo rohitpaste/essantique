@@ -1,7 +1,24 @@
-import { useCart } from "../context/CartContext";
+// src/pages/MyOrders.js
+import { useEffect, useState } from "react";
+import { db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { useAuth } from "../context/AuthContext";
 
 const MyOrders = () => {
-  const { orders } = useCart();
+  const { currentUser } = useAuth();
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      if (!currentUser) return;
+      const ordersRef = collection(db, "users", currentUser.uid, "orders");
+      const querySnapshot = await getDocs(ordersRef);
+      const ordersList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setOrders(ordersList);
+    };
+
+    fetchOrders();
+  }, [currentUser]);
 
   return (
     <div className="py-6">
@@ -10,13 +27,12 @@ const MyOrders = () => {
         <p>No orders placed yet.</p>
       ) : (
         <ul className="space-y-4">
-          {orders.map((order, index) => (
-            <li key={index} className="flex items-center space-x-4">
-              <img src={order.img} alt={order.title} className="w-16 h-16 object-cover rounded" />
+          {orders.map((order) => (
+            <li key={order.id} className="flex items-center space-x-4">
               <div>
-                <p>{order.title}</p>
-                {order.selectedSize && <p>Size: {order.selectedSize}</p>}
-                <p>₹{order.price}</p>
+                <p>Total: ₹{order.total}</p>
+                <p>Status: {order.status}</p>
+                <p>Items: {order.items.map(i => `${i.title} (${i.selectedSize})`).join(", ")}</p>
               </div>
             </li>
           ))}
