@@ -5,7 +5,7 @@ const CustomizePerfume = () => {
 
   return (
     <section className="bg-black text-white py-20 px-6 md:px-16">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10">
 
         {/* Left Side - Description */}
         <div className="w-full md:w-1/2">
@@ -13,18 +13,19 @@ const CustomizePerfume = () => {
             Design Your Signature Scent
           </h2>
           <p className="text-gray-400 mb-6 text-base md:text-lg">
-            Inspired by iconic brands like Chanel, Dior, Gucci, and more, craft your own unique fragrance blend with notes that match your personality. Create a bottle that's exclusively yours.
+            Inspired by iconic brands like Chanel, Dior, Gucci, and more. Craft your own unique fragrance blend with notes that match your personality. Create a bottle that's exclusively yours.
           </p>
+        </div>
 
+        {/* Right Side - Button */}
+        <div className="w-full md:w-1/3 flex justify-center md:justify-end">
           <button
             onClick={() => setShowCustomization(true)}
-            className="bg-yellow-500 text-black py-2 px-6 rounded hover:bg-yellow-600 transition"
+            className="bg-yellow-500 text-black py-3 px-6 rounded hover:bg-yellow-600 transition text-lg"
           >
             Customize Your Perfume ✨
           </button>
         </div>
-
-       
       </div>
 
       {/* Customization Modal Box */}
