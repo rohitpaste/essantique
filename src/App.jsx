@@ -16,24 +16,21 @@ import Profile from "./components/Profile";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import AutoScrolling from "./components/AutoScrolling";
-import CustomizePerfume from "./components/CustomizePerfume"; // Import the new page
+import CustomizePerfume from "./components/CustomizePerfume"; // ✅ New Page
 
-
-// HomePage as a combined section page
+// ✅ HomePage includes CustomizePerfume section
 const HomePage = () => (
   <div className="max-w-7xl mx-auto pt-20 px-4">
     <HeroSection />
     <Gallery />
-    <CustomizePerfume/>
+    <CustomizePerfume />  {/* Section in Home */}
     <PerfumeCollection />
   </div>
 );
 
-// App Layout with Conditional Footer
+// App Layout
 const Layout = () => {
   const location = useLocation();
-
-  // Show Footer only on home page ("/")
   const showFooter = location.pathname === "/";
 
   return (
@@ -51,8 +48,9 @@ const Layout = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/scroll" element={<AutoScrolling />} />
-        <Route path="/customize" element={<CustomizePerfume />} /> {/* New Route */}
 
+        {/* ✅ Separate Page */}
+        <Route path="/customize" element={<div className="max-w-7xl mx-auto pt-20 px-4"><CustomizePerfume /></div>} />
       </Routes>
 
       {showFooter && <Footer />}
