@@ -54,13 +54,13 @@ const CustomizePerfume = () => {
                 type="submit"
                 className="bg-yellow-500 text-black py-2 px-4 rounded hover:bg-yellow-600 transition"
               >
-                Create
+                Add to Cart
               </button>
               <button
                 type="button"
                 className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400 transition"
               >
-                Cancel
+                Send Request
               </button>
             </div>
           </form>
