@@ -50,7 +50,7 @@ const CartPage = () => {
             >
               Proceed to Checkout
             </button>
-
+ 
             <button
               onClick={clearCart}
               className="ml-4 bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"

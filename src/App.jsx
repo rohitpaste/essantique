@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { CartProvider } from "./context/CartContext";
+import { AuthProvider } from "./context/AuthContext";
 
 // Pages
 import HeroSection from "./components/HeroSection";
@@ -18,11 +19,12 @@ import Signup from "./components/auth/Signup";
 import AutoScrolling from "./components/AutoScrolling";
 import CustomizePerfume from "./components/CustomizePerfume";
 
-// ✅ New imports for integrated pages
+// Newly added pages
 import OrderDetails from "./components/OrderDetails";
 import NotFound from "./components/NotFound";
+import SearchResults from "./components/SearchResults"; // ✅ Added this import
 
-// ✅ HomePage includes CustomizePerfume
+// ✅ Home Page Composition
 const HomePage = () => (
   <div className="max-w-7xl mx-auto pt-20 px-4">
     <HeroSection />
@@ -32,7 +34,7 @@ const HomePage = () => (
   </div>
 );
 
-// ✅ Layout with Footer only on Home
+// ✅ Layout Wrapper to Show Footer Only on Home Page
 const Layout = () => {
   const location = useLocation();
   const showFooter = location.pathname === "/";
@@ -46,17 +48,20 @@ const Layout = () => {
         <Route path="/order" element={<OrderPage />} />
         <Route path="/cart" element={<Cartpage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/buynow" element={<BuyNowPage />} /> {/* ✅ Integrated Buy Now Page */}
+        <Route path="/buynow" element={<BuyNowPage />} />
         <Route path="/orders" element={<MyOrder />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/scroll" element={<AutoScrolling />} />
-
-        <Route path="/orders/:orderId" element={<OrderDetails />} /> {/* ✅ Single order details page */}
-        <Route path="/customize" element={<div className="max-w-7xl mx-auto pt-20 px-4"><CustomizePerfume /></div>} />
-
-        <Route path="*" element={<NotFound />} /> {/* ✅ 404 fallback */}
+        <Route path="/orders/:orderId" element={<OrderDetails />} />
+        <Route path="/customize" element={
+          <div className="max-w-7xl mx-auto pt-20 px-4">
+            <CustomizePerfume />
+          </div>
+        } />
+        <Route path="/search" element={<SearchResults />} /> {/* ✅ SearchResults route */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       {showFooter && <Footer />}
@@ -64,13 +69,15 @@ const Layout = () => {
   );
 };
 
-// ✅ Main App wrapped with CartProvider and Router
+// ✅ Main App Entry Point with Context Providers
 const App = () => {
   return (
     <CartProvider>
-      <Router>
-        <Layout />
-      </Router>
+      <AuthProvider>
+        <Router>
+          <Layout />
+        </Router>
+      </AuthProvider>
     </CartProvider>
   );
 };

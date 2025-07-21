@@ -1,27 +1,40 @@
-import React, { useState } from "react";
 import { useCart } from "../context/CartContext";
+import { useState } from "react";
+import { db, auth } from "../firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const CustomizePerfume = () => {
   const { addToCart } = useCart();
+  const [user] = useAuthState(auth);
+
   const [brand, setBrand] = useState("Chanel");
   const [notes, setNotes] = useState("");
   const [size, setSize] = useState("20ml");
 
-  const handleAddToCart = (e) => {
+  const handleAddToCart = async (e) => {
     e.preventDefault();
+    if (!user) return alert("Please log in to customize and add to cart.");
 
+    const price = size === "20ml" ? 500 : size === "50ml" ? 1200 : 2000;
     const newItem = {
-      id: Date.now(),
       title: `${brand} Custom Perfume`,
       selectedSize: size,
-      price: size === "20ml" ? 500 : size === "50ml" ? 1200 : 2000,
+      price,
       img: "https://via.placeholder.com/100x100.png?text=Perfume",
       fragranceNotes: notes,
       quantity: 1,
+      isCustom: true,
+      createdAt: serverTimestamp(),
     };
 
-    addToCart(newItem);
-    alert("Perfume added to cart!");
+    // 1. Add to cart
+    await addToCart(newItem);
+
+    // 2. (Optional) Store in customPerfumes collection
+    await addDoc(collection(db, "users", user.uid, "customPerfumes"), newItem);
+
+    alert("Custom perfume added to cart!");
   };
 
   return (
@@ -31,7 +44,6 @@ const CustomizePerfume = () => {
           <h2 className="text-4xl font-semibold mb-6">Design Your Signature Scent</h2>
           <p className="text-gray-400 mb-6">Craft your own unique fragrance blend inspired by top brands.</p>
         </div>
-
         <div className="w-full md:w-1/2 bg-white text-black rounded-lg p-8">
           <h3 className="text-xl font-bold mb-4">Customize Your Perfume</h3>
           <form onSubmit={handleAddToCart} className="space-y-4">

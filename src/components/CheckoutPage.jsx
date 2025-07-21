@@ -91,7 +91,7 @@ const CheckoutPage = () => {
     <option value="COD">Cash on Delivery (COD)</option>
     <option value="UPI">UPI Payment</option>
     <option value="Credit/Debit Card">Credit / Debit Card</option>
-  </select>
+  </select> 
 
   <button
     type="submit"
