@@ -1,63 +1,77 @@
-// ✅ CartContext.js (Firebase + React Context integration)
+// src/context/CartContext.jsx
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { auth, db } from "../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import { db } from "../firebase";
+import { useAuth } from "./AuthContext";
 import {
   collection,
   addDoc,
   deleteDoc,
   doc,
   onSnapshot,
-  getDocs,
+  query,
+  where,
 } from "firebase/firestore";
 
 const CartContext = createContext();
+
 export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
+  const { currentUser } = useAuth();
   const [cartItems, setCartItems] = useState([]);
-  const [user] = useAuthState(auth);
 
+  // Load cart items from Firestore when user logs in
   useEffect(() => {
-    if (!user) return;
-    const cartRef = collection(db, "users", user.uid, "cart");
-    const unsub = onSnapshot(cartRef, (snapshot) => {
-      setCartItems(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    if (!currentUser) return;
+
+    const q = query(
+      collection(db, "users", currentUser.uid, "cart")
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const items = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCartItems(items);
     });
-    return unsub;
-  }, [user]);
+
+    return () => unsubscribe();
+  }, [currentUser]);
 
   const addToCart = async (item) => {
-    if (!user) return alert("Please login to add items to cart");
-    await addDoc(collection(db, "users", user.uid, "cart"), item);
+    if (!currentUser) return alert("Please log in first!");
+
+    try {
+      await addDoc(collection(db, "users", currentUser.uid, "cart"), item);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
   };
 
-  const removeFromCart = async (id) => {
-    if (!user) return;
-    await deleteDoc(doc(db, "users", user.uid, "cart", id));
+  const removeFromCart = async (itemId) => {
+    if (!currentUser) return;
+
+    try {
+      await deleteDoc(doc(db, "users", currentUser.uid, "cart", itemId));
+    } catch (error) {
+      console.error("Error removing from cart:", error);
+    }
   };
 
   const clearCart = async () => {
-    if (!user) return;
-    const cartRef = collection(db, "users", user.uid, "cart");
-    const snap = await getDocs(cartRef);
-    snap.forEach((docu) => deleteDoc(docu.ref));
-  };
+    if (!currentUser) return;
 
-  const placeOrder = async (items) => {
-    if (!user) return;
-    const orderRef = collection(db, "users", user.uid, "orders");
-    await addDoc(orderRef, {
-      createdAt: new Date(),
-      items,
-      status: "Placed",
+    const q = query(collection(db, "users", currentUser.uid, "cart"));
+    const snapshot = await onSnapshot(q, () => {});
+    snapshot.docs.forEach(async (docSnap) => {
+      await deleteDoc(doc(db, "users", currentUser.uid, "cart", docSnap.id));
     });
-    clearCart();
   };
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, clearCart, placeOrder }}
+      value={{ cartItems, addToCart, removeFromCart, clearCart }}
     >
       {children}
     </CartContext.Provider>
